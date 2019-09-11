@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta name="title" content="Tour the Solar Sytem" />
+<meta name="description" content="A narrative tour of our solar system; created for my DTC 355 class at WSU Vancouver." />
+<meta name="keywords" content="hakarune, solar, system, class, WSU, Vancouver, DTC, CSCI, web design, html5, css3, tour, parallax" />
+<meta name="language" content="en" />
+<meta name="author" content="Trevor Elliott" />
+<link rel="shortcut icon" href="favicon2.ico" type="image/x-icon">
+<link rel="icon" href="favicon2.ico" type="image/x-icon">
+<title>Tour the Solar Sytem | by Trevor Elliott</title>
+<link rel="stylesheet" type="text/css" media="screen and print" href="normalize.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+<link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
+
+<!-- Browser Compatability Waring -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="http://widget.browsercompatible.com/browser_detect.js"></script>
+
+<script type="text/javascript">
+function addMyWidget(){
+BrowserDetect.supported = [{browserName: "Safari",browserVersion: 6},{browserName: "Chrome",browserVersion: 26},{browserName: "MSIE",browserVersion: 10},{browserName: "Firefox",browserVersion: 15},{browserName: "Opera",browserVersion: 12}];
+BrowserDetect.type = "footer";
+BrowserDetect.detect();
+}
+$(document).ready(addMyWidget);
+</script>
+<!-- End Browser Compatability Waring -->
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript">
+var WIDTH;
+var HEIGHT;
+var canvas;
+var con;
+var g;
+var pxs = new Array();
+var rint = 60;
+
+$(document).ready(function(){
+	WIDTH = window.innerWidth;
+	HEIGHT = window.innerHeight;
+	$('#container').width(WIDTH).height(HEIGHT);
+	canvas = document.getElementById('pixie');
+	$(canvas).attr('width', WIDTH).attr('height',HEIGHT);
+	con = canvas.getContext('2d');
+	for(var i = 0; i < 100; i++) {
+		pxs[i] = new Circle();
+		pxs[i].reset();
+	}
+	setInterval(draw,rint);
+});
+
+function draw() {
+	con.clearRect(0,0,WIDTH,HEIGHT);
+	for(var i = 0; i < pxs.length; i++) {
+		pxs[i].fade();
+		pxs[i].move();
+		pxs[i].draw();
+	}
+}
+
+function Circle() {
+	this.s = {ttl:8000, xmax:5, ymax:2, rmax:10, rt:1, xdef:960, ydef:540, xdrift:4, ydrift: 4, random:true, blink:true};
+
+	this.reset = function() {
+		this.x = (this.s.random ? WIDTH*Math.random() : this.s.xdef);
+		this.y = (this.s.random ? HEIGHT*Math.random() : this.s.ydef);
+		this.r = ((this.s.rmax-1)*Math.random()) + 1;
+		this.dx = (Math.random()*this.s.xmax) * (Math.random() < .5 ? -1 : 1);
+		this.dy = (Math.random()*this.s.ymax) * (Math.random() < .5 ? -1 : 1);
+		this.hl = (this.s.ttl/rint)*(this.r/this.s.rmax);
+		this.rt = Math.random()*this.hl;
+		this.s.rt = Math.random()+1;
+		this.stop = Math.random()*.2+.4;
+		this.s.xdrift *= Math.random() * (Math.random() < .5 ? -1 : 1);
+		this.s.ydrift *= Math.random() * (Math.random() < .5 ? -1 : 1);
+	}
+
+	this.fade = function() {
+		this.rt += this.s.rt;
+	}
+
+	this.draw = function() {
+		if(this.s.blink && (this.rt <= 0 || this.rt >= this.hl)) this.s.rt = this.s.rt*-1;
+		else if(this.rt >= this.hl) this.reset();
+		var newo = 1-(this.rt/this.hl);
+		con.beginPath();
+		con.arc(this.x,this.y,this.r,0,Math.PI*2,true);
+		con.closePath();
+		var cr = this.r*newo;
+		g = con.createRadialGradient(this.x,this.y,0,this.x,this.y,(cr <= 0 ? 1 : cr));
+		g.addColorStop(0.0, 'rgba(255,255,255,'+newo+')');
+		g.addColorStop(this.stop, 'rgba(227, 228, 229,'+(newo*.6)+')');
+		g.addColorStop(1.0, 'rgba(169,169,169,0)');
+		con.fillStyle = g;
+		con.fill();
+	}
+
+	this.move = function() {
+		this.x += (this.rt/this.hl)*this.dx;
+		this.y += (this.rt/this.hl)*this.dy;
+		if(this.x > WIDTH || this.x < 0) this.dx *= -1;
+		if(this.y > HEIGHT || this.y < 0) this.dy *= -1;
+	}
+
+	this.getX = function() { return this.x; }
+	this.getY = function() { return this.y; }
+}
+</script>
+</head>	
+	<body>
+		<audio autoplay loop volume="0.5">
+		  <source src="bgmusic.ogg" id="bgmusicA" type="audio/ogg" >
+		  <source src="JulienNeto.mp3" id="bgmusicB" type="audio/mp3" >
+		  <source src="JulienNeto.ogg" id="bgmusicB" type="audio/ogg" >
+		  Your browser does not support HTML5 audio!
+		</audio>
+
+		<div class="main"> <!-- main parallax scrolling slider object -->
+			<input id="r_1" type="radio" name="p" class="slide_1" checked="checked" /> <!-- hidden radios -->
+			<input id="r_2" type="radio" name="p" class="slide_2" />
+			<input id="r_3" type="radio" name="p" class="slide_3" />
+			<input id="r_4" type="radio" name="p" class="slide_4" />
+			<input id="r_5" type="radio" name="p" class="slide_5" />
+			<input id="r_6" type="radio" name="p" class="slide_6" />
+			<input id="r_7" type="radio" name="p" class="slide_7" />
+			<input id="r_8" type="radio" name="p" class="slide_8" />
+			<input id="r_9" type="radio" name="p" class="slide_9" />
+			<input id="r_10" type="radio" name="p" class="slide_10" />
+			<input id="r_11" type="radio" name="p" class="slide_11" />
+
+			<label for="r_1" class="arrow c1"></label> <!-- controls -->
+			<label for="r_2" class="arrow c2"></label>
+			<label for="r_3" class="arrow c3"></label>
+			<label for="r_4" class="arrow c4"></label>
+			<label for="r_5" class="arrow c5"></label>
+			<label for="r_6" class="arrow c6"></label>
+			<label for="r_7" class="arrow c7"></label>
+			<label for="r_8" class="arrow c8"></label>
+			<label for="r_9" class="arrow c9"></label>
+			<label for="r_10" class="arrow c10"></label>
+			<label for="r_11" class="arrow c11"></label>
+
+			<div class="slides">
+				<canvas id="pixie"></canvas>
+				<ul> <!-- slides -->
+					<li>
+						<h1>Sol/Sun</h1>
+						<figure>
+							<img src="images/sol.png" alt="Sol/Sun" />
+						</figure>
+						<article>
+							The Sun is the star at the center of the Solar System. It is almost perfectly spherical and consists of hot plasma interwoven with magnetic fields. It has a diameter of about 1,392,684 km, about 109 times that of Earth, and its mass (about 2x10<sup>30</sup> kilograms, 330,000 times that of Earth) accounts for about 99.86% of the total mass of the Solar System. Chemically, about three quarters of the Sun's mass consists of hydrogen, while the rest is mostly helium. The remainder (1.69%, which nonetheless equals 5,628 times the mass of Earth) consists of heavier elements, including oxygen, carbon, neon and iron, among others.		
+						</article>
+					</li>
+					<li>
+						<h1>Mercury</h1>
+						<figure>
+							<img src="images/mercury.png" alt="mercury" />
+						</figure>
+						<article>
+							Mercury is the smallest planet in the Solar System. It is the closest planet to the sun. It makes one trip around the Sun once every 87.969 days. Mercury is bright when it is visible from Earth, ranging from -2.0 to 5.5 in apparent magnitude. It cannot be easily seen as it is usually too close to the Sun. Because Mercury is normally lost in the glare of the Sun (except during a solar eclipse), Mercury can only be seen in the morning or evening twilight.
+						</article>
+					</li>
+					<li>
+						<h1>Venus</h1>
+						<figure>
+							<img src="images/venus.png" alt="Venus" />
+						</figure>
+						<article>
+							Venus is the second planet from the Sun. It is a terrestrial planet because it has a solid, rocky surface. The other terrestrial planets are Mercury, Earth and Mars. Astronomers have known Venus for thousands of years. The ancient Romans named it after their goddess Venus. Venus is the brightest thing in the night sky except for the Moon. It is sometimes called the morning star or the evening star as it is brightest just before the sun comes up in the morning, and just after the sun goes down in the evening. Venus comes closer to the earth than any other planet does. Venus is sometimes called the sister planet of Earth as they are quite similar in size and gravity. In other ways the two planets are very different. 
+						</article>
+					</li>
+					<li>
+						<h1>Earth</h1>
+						<figure>
+							<img src="images/earth.png" alt="Earth" />
+						</figure>
+						<article>
+							The Earth, our world, is the third planet from the Sun. It is one of the four terrestrial planets in our Solar System. This means most of its mass is solid. The other three are Mercury, Venus and Mars. Earth is home to millions of species of plants and animals, including humans. Earth is the only place in the universe where life has been confirmed to exist. The Earth formed around 4.5 billion years ago. The things that live on Earth have had a great impact on many aspects of the planet. For example, early lifeforms completely changed its air (atmosphere). The total of all life is called the biosphere. About 71% of Earth's surface is covered in salt water oceans. Earth is the only planet where liquid water is known to exist at present.
+						</article>
+					</li>
+					<li>
+						<h1>Mars</h1>
+						<figure>
+							<img src="images/mars.png" alt="Mars" />
+						</figure>
+						<article>
+							Mars is the fourth planet from the Sun in the Solar System. Mars is rocky and cold, with polar ice caps of frozen water and carbon dioxide. It has the largest volcano in the Solar System, and some very large impact craters. Mars is named after the mythological Roman god of war because it is a red planet, the colour of blood.
+						</article>
+					</li>
+
+					<li>
+						<h1>Jupiter</h1>
+						<figure>
+							<img src="images/jupiter.png" alt="Jupiter" />
+						</figure>
+						<article>
+							Jupiter is the largest planet in the Solar System. It is the fifth planet from the Sun. Jupiter is classified as a gas giant, because it is so large, and is made up mostly of gas. The other gas giants are Saturn, Uranus and Neptune. Jupiter can be seen with the naked eye, without any special equipment. It was known to the ancient Romans, who named it after their god Jupiter (Latin: Iuppiter). Jupiter is the third brightest object in the night sky. Only the Earth's moon and Venus are brighter. Jupiter has at least 66 moons. Of these, 55 are very small and less than five km wide. The four largest moons of Jupiter are Io, Europa, Ganymede and Callisto. They are called the Galilean moons, because they were discovered by the Italian astronomer Galileo Galilei. Ganymede is the largest moon in the Solar System.
+						</article>
+					</li>
+					<li>
+						<h1>Saturn</h1>
+						<figure>
+							<img id="saturn" src="images/saturn.png" alt="Saturn" />
+						</figure>
+						<article>
+							Saturn is the sixth planet from the Sun in the Solar System. It is the second largest planet in the Solar System, after Jupiter. Like Jupiter, Uranus and Neptune, it is a "gas giant". The inside of Saturn is probably a core of iron, nickel, silicon and oxygen compounds, surrounded by a deep layer of metallic hydrogen, then a layer of liquid hydrogen and liquid helium and finally, an outer gaseous layer. Saturn has 62 known moons orbiting the planet; 53 are officially named. The largest moon is Titan, which is larger in volume than the planet Mercury. Saturn was named after the Roman god Saturnus (called Kronos in Greek mythology). Saturn's symbol is ♄ which is the symbol of Saturnus' sickle.
+						</article>
+					</li>
+					<li>
+						<h1>Uranus</h1>
+						<figure>
+							<img src="images/uranus.png" alt="Uranus" />
+						</figure>
+						<article>
+							Uranus is the seventh planet from the Sun in the Solar System. It is a gas giant. It is the third largest planet in the solar system. The planet is made of ice, gases and liquid metal. Its atmosphere contains hydrogen, helium and methane. The temperature on Uranus is -197&deg;C (79 K). The planet is tilted on its axis so much that it is sideways. Uranus completes its turn around the Sun in 84 earth years. It completes its turn around itself in 17 hours and 14 minutes. This means there are about 43,000 days in 1 uranian year. Uranus has 11 rings which are hard to see from earth. This planet can be seen with the naked eye under perfect conditions. Uranus is named after the Greek god Uranus, who was a god of sky.
+						</article>
+					</li>
+					<li>
+						<h1>Neptune</h1>
+						<figure>
+							<img src="images/neptune.png" alt="Neptune" />
+						</figure>
+						<article>
+							Neptune is the eighth and last planet from the Sun in the Solar System. It is a gas giant. It is the fourth largest planet and third heaviest. Neptune has four rings which are hard to see from the Earth. It is 17 times heavier than Earth and is a little bit heavier than Uranus. It was named after the Roman God of the Sea. Neptune's atmosphere (a layer of gas floating above planets) is mostly made up of hydrogen and helium. It also contains small amounts of methane which makes the planet appear blue. Neptune's blue color is much brighter compared to Uranus', which has a similar amount of methane, so there might be another reason why Neptune is blue. Neptune also has the strongest winds of any planet in the solar system, measured as high as 2,100 km/h or 1,300 mph.
+						</article>
+					</li>
+					<li>
+						<h1>Pluto</h1>
+						<figure>
+							<img src="images/pluto.png" alt="Pluto" />
+						</figure>
+						<article>
+							Pluto is the second-largest dwarf planet in the Solar System. It is smaller than the largest known dwarf planet, Eris. Its formal name is 134340 Pluto. The dwarf planet is the tenth-largest body that moves around the Sun. At first, Pluto was called a planet. Now, it is considered the second largest of the bodies in the Kuiper belt. Like other members of the Kuiper belt, Pluto is mainly made of rock and ice. It is quite small. It is about a fifth of the weight of the Earth's Moon. It has an odd orbit and This orbit is very sloped. It takes Pluto to 30 to 49 AU (4.4–7.4 billion km) from the Sun. This causes Pluto to sometimes go closer to the Sun than Neptune.
+						</article>
+					</li>
+					<li>
+						<h1>A Tour of the Solar System <br /><span id="author">Created by Trevor Elliott</span></h1>
+						<figure>
+							<img src="images/moon.png" alt="Andromeda" />
+						</figure>
+						<article id="footer">
+							This website, A Tour of the Solar System, was my first attempt at a parallax website and an attempt to create a narrative parallax website using pure HTML5 and CSS3 for my class at WSU Vacnouver,DTC 355. I used hidden radio boxes and child selectors with CSS3 transition, all of which are most stable and usable in Chrome 26+. This was build for chrome (with no real fallbacks for other browsers) on mobile and computer using some of the experimental HTML5. The audio is unavailable on most mobile browsers. Some of the features included are: the scrollbar for this article is hidden, but still usable.
+                            <br /><br />
+                            You can find more of my work online at <a href="hakarune.weebly.com">my website</a> and <a href="hakarune.deviantart.com">DeviantArt</a>, as well as other places around the web.<br />
+                            <span id="end">
+                            All information and images are from NASA and Wikipedia.
+							<img alt="Public domain" src="images/commons.png" class="wiki" /> The file are in the <a rel="nofollow" target="_blank" href="//en.wikipedia.org/wiki/public_domain" title="w:public domain">public domain</a> because they were solely created by <a rel="nofollow" target="_blank" href="//en.wikipedia.org/wiki/NASA" title="w:NASA">NASA</a>. NASA copyright policy states that "NASA material is not protected by copyright unless noted". (See <a target="_blank" rel="nofollow" href="http://www.jsc.nasa.gov/policies.html#Guidelines">NASA copyright policy page</a> or <a rel="nofollow" href="http://www.jpl.nasa.gov/images/policy/">JPL Image Use Policy</a>.)
+							<br />
+							For more information on the solar system look to <a href="http://en.wikipedia.org/wiki/Solar_System" rel="nofollow" target="_blank" title="Solar System">Wikipedia</a>.
+							<br />
+							For a more indepth look and tour of the the solar system, check out: <a href="http://workshop.chromeexperiments.com/stars/" rel="nofollow" target="_blank" title="100,000 Stars by Google Data Arts Team">100,000 Stars by Google Data Arts Team</a>
+							<br />
+							Background music loop clips: <a href="https://play.google.com/store/music/album?id=Bdx3ihm2ja2rbafctp27rr7siiq" target="_blank" rel="nofollow">Farewell</a> by Julien Neto and <a href="https://play.google.com/store/music/album?id=B74ekwojax7hgfhysf6k4zwjp7y" target="_blank" rel="nofollow">Water</a> by Tanefication.
+							</span>
+							
+						</article>
+					</li>
+			   </ul>
+		   </div>
+		</div>
+	</body>
+</html>

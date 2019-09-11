@@ -1,0 +1,128 @@
+html, body {height:100%;}
+html, body, div, span, canvas { margin:0; padding:0; }
+
+body {    
+}
+
+#wrapper {
+	width:100%;
+	height:100%;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+	z-index:2;
+}
+
+#pixie {
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:0;
+	background: #000000; /* Old browsers */
+	width:100%;
+	height:100%;
+}
+/*
+#sol:target, #mercury:target, #venus:target, #earth:target, #mars:target, #jupiter:target, #saturn:target, #uranus:target, #neptune:target, #pluto:target {
+
+}
+*/
+
+#home {
+	left:0;
+}
+
+#sol { 	left:100%;}#mercury { 	left:200%;}#venus { 	left:300%;}#earth { 	left:400%;}#mars { 	left:500%;}#jupiter { 	left:600%;}#saturn { 	left:700%;}#uranus { 	left:800%;}#neptune { 	left:900%;}#pluto {
+	left:1000%;
+}
+
+
+.slide {
+	position:absolute;
+	top:0;
+	width:100%;
+	height:100%;
+	z-index:8;
+	overflow:hidden;
+	-webkit-transition: left 3s linear;
+	-moz-transition: left 3s linear;
+	-o-transition: left 3s linear;
+	transition: left 3s linear;
+	z-index:9;
+}
+
+/*
+.slide#sol, .slide#mercury, .slide#venus, .slide#earth, .slide#mars, .slide#jupiter, .slide#saturn, .slide#uranus, .slide#neptune, .slide#pluto {
+	
+}
+*/
+
+
+figure img {
+	-webkit-border-radius: 300px;
+	-moz-border-radius: 300px;
+	border-radius: 300px;
+	max-width: 80%;
+	margin: 1% 20%;
+	box-shadow: 0px 1px 10px #000;
+	background-color: #000;
+}
+
+article { 
+	position: absolute;
+	bottom: 1%;
+	left: 10%;
+	width: 80%;
+	margin:0 auto;
+	background:rgba(100, 100, 100, 0.6);
+	-webkit-border-radius: 40px;
+	-moz-border-radius: 40px;
+	border-radius: 40px;
+}
+
+article p {
+	padding:0 35px;
+	color:#f1f1f1;
+}
+
+header {
+	width:100%
+	margin: -25px 0 0 0;
+}
+
+header h1 {
+	text-align: center;
+	color: #f1f1f1;
+	text-shadow: 0px 2px 3px #000;
+}
+
+/* SOCIAL ICONS - GENERAL */
+.social { list-steyle:none; margin: auto; width:100%; z-index:2000; }
+.social li { display:inline; float:left; background-repeat:no-repeat; }
+.social li a { display:block; width:48px; height:48px; padding-right:10px; position:relative; text-decoration:none; }
+.social li a strong { font-weight:normal; position:absolute; left:20px; top:-1px; color:#fff; padding:3px; z-index:9999;
+ text-shadow:1px 1px 0 rgba(0, 0, 0, 0.75); background-color:rgba(0, 0, 0, 0.7);
+ -moz-border-radius:3px; -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); -webkit-border-radius:3px; -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); border-radius:3px; box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+li.flickr { background-image:url(http://img.photobucket.com/albums/v322/Hakarune/Social%20Media%20Icons/Inside/48x48/icontexto-inside-flickr.png); }
+li.myspace { background-image:url(http://img.photobucket.com/albums/v322/Hakarune/Social%20Media%20Icons/Inside/48x48/icontexto-inside-myspace.png); }
+li.facebook { background-image:url(http://img.photobucket.com/albums/v322/Hakarune/Social%20Media%20Icons/Inside/48x48/icontexto-inside-facebook.png); }
+li.linkedin { background-image:url(http://img.photobucket.com/albums/v322/Hakarune/Social%20Media%20Icons/Inside/48x48/icontexto-inside-linkedin.png); }
+li.rss { background-image:url(http://img.photobucket.com/albums/v322/Hakarune/Social%20Media%20Icons/Inside/48x48/icontexto-inside-rss.png); }
+li.twitter { background-image:url(http://img.photobucket.com/albums/v322/Hakarune/Social%20Media%20Icons/Inside/48x48/icontexto-inside-twitter.png); }
+li.youtube { background-image:url(http://img.photobucket.com/albums/v322/Hakarune/Social%20Media%20Icons/Inside/48x48/icontexto-inside-youtube.png); }
+li.delicious { background-image:url(http://img.photobucket.com/albums/v322/Hakarune/Social%20Media%20Icons/Inside/48x48/icontexto-inside-delicious.png); }
+
+/* SOCIAL ICONS - CSS3 */
+#css3:hover li { opacity:0.1; }
+
+#css3 li { -webkit-transition-property: opacity; -webkit-transition-duration: 500ms;
+ -moz-transition-property: opacity; -moz-transition-duration: 500ms; }
+#css3 li a strong { opacity:0;
+ -webkit-transition-property: opacity, top; -webkit-transition-duration: 300ms;
+ -moz-transition-property: opacity, top; -moz-transition-duration: 300ms; }
+
+#css3 li:hover { opacity:1; }
+#css3 li:hover a strong { opacity:1; top:-10px; }
+/*End Social */
