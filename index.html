@@ -112,13 +112,12 @@ function Circle() {
 </script>
 </head>	
 	<body>
-		<audio autoplay loop volume="0.5">
+		<audio preload="auto" volume="0.5" autoplay loop>
 		  <source src="bgmusic.ogg" id="bgmusicA" type="audio/ogg" >
-		  <source src="JulienNeto.mp3" id="bgmusicB" type="audio/mp3" >
-		  <source src="JulienNeto.ogg" id="bgmusicB" type="audio/ogg" >
+		  <source src="JulienNeto.mp3" id="bgmusicB" type="audio/mp3">
+		  <source src="JulienNeto.ogg" id="bgmusicB" type="audio/ogg">
 		  Your browser does not support HTML5 audio!
 		</audio>
-
 		<div class="main"> <!-- main parallax scrolling slider object -->
 			<input id="r_1" type="radio" name="p" class="slide_1" checked="checked" /> <!-- hidden radios -->
 			<input id="r_2" type="radio" name="p" class="slide_2" />
@@ -263,5 +262,6 @@ function Circle() {
 			   </ul>
 		   </div>
 		</div>
+
 	</body>
 </html>
