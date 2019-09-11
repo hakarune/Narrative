@@ -99,7 +99,7 @@ h1 {
 .slide_9:checked ~ .arrow.c10, .slide_10:checked ~ .arrow.c11 {
     background-image:url(images/down.png);
     display:block;
-    top:82%;
+    top:90%;
 }
 
 .slide_2:checked ~ .arrow.c1, .slide_3:checked ~ .arrow.c2, 
